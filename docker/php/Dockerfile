@@ -1,3 +1,3 @@
 FROM php:8.1-fpm
 
-RUN 
+RUN docker-php-ext-install mysqli

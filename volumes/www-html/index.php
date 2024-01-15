@@ -7,7 +7,7 @@
         <?php echo '<p>Hello World</p>'; ?>
         <?php echo '<p>Hello World</p>'; ?>
         <?php 
-          mysql_connect('mysql', 'root', 'mysqlrootpassword', )
+          mysqli_connect('mysql', 'root', 'root', )
           ?>
     </body>
 </html>
