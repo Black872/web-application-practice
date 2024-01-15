@@ -1,0 +1,55 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql8
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "./dbfile:/var/lib/mysql"
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - app
+
+  php:
+    build:
+      context: ./docker/php/
+      dockerfile: Dockerfile
+    container_name: php8.1-fpm
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mysql:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD 
+      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
+    volumes:
+      - "./volumes/www-html:/var/www/html"
+    networks:
+      - app
+    
+  nginx:
+    image: nginx
+    depends_on:
+      - php
+    container_name: nginx-latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - "./volumes/www-html:/var/www/html"
+      - "./volumes/conf.d:/etc/nginx/conf.d"
+    networks:
+      - app
+
+volumes:
+  www-html:
+  conf.d:
+  dbfile:
+
+networks:
+  app:
+    driver: bridge
