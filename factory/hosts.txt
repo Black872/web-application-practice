@@ -1,0 +1,2 @@
+[DEV]
+virtubuntu1 ansible_host=0.0.0.0
