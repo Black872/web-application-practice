@@ -59,7 +59,7 @@
 
     - name: Copy files on remote machine
       copy:
-        src: /home/dark/workspace/vacpet/web-application-practice/application
+        src: /home/dark/workspace/vacpet/web-application-practice/application/*
         dest: /home/dark/docker/
         owner: dark
         group: docker
